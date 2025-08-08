@@ -55,6 +55,15 @@ public static class Utils
 
         animation.Play(clipName);
     }
+
+    /// <summary>
+    /// 是否是在编辑器中运行
+    /// </summary>
+    /// <returns></returns>
+    public static bool isPlayEditer()
+    {
+        return Application.isEditor;
+    }
 }
 
 // 事件代理类

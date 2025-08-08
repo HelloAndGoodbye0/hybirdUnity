@@ -11,8 +11,8 @@ public class UIManager : MonoBehaviour
     private Dictionary<UILayer, Transform> layerRoots = new Dictionary<UILayer, Transform>();
     // 已实例化UI
     private Dictionary<string, UIView> uiDict = new Dictionary<string, UIView>();
-    // 已加载的AssetBundle缓存
-    private Dictionary<string, AssetBundle> bundleCache = new Dictionary<string, AssetBundle>();
+    //// 已加载的AssetBundle缓存
+    //private Dictionary<string, AssetBundle> bundleCache = new Dictionary<string, AssetBundle>();
 
     private void Awake()
     {
@@ -38,14 +38,14 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// 打开UI（异步从AssetBundle加载）
     /// </summary>
-    public async Task<T> OpenAsync<T>(object param = null) where T : UIView
+    public T OpenAsync<T>(object param = null) where T : UIView
     {
         string uiName = typeof(T).Name;
         if (!uiDict.TryGetValue(uiName, out UIView view) || view == null)
         {
             // 加载AssetBundle
-            string bundlePath = GetBundlePath(uiName);
-            AssetBundle bundle = await LoadBundleAsync(bundlePath);
+            //string bundlePath = GetBundlePath(uiName);
+            AssetBundle bundle = ResMangaer.LoadBundle(uiName);
 
             if (bundle == null)
             {
@@ -100,28 +100,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 异步加载AssetBundle（含缓存）
-    /// </summary>
-    private async Task<AssetBundle> LoadBundleAsync(string bundlePath)
-    {
-        if (bundleCache.TryGetValue(bundlePath, out AssetBundle bundle) && bundle != null)
-            return bundle;
 
-        var req = AssetBundle.LoadFromFileAsync(bundlePath);
-        while (!req.isDone) await Task.Yield();
-        bundle = req.assetBundle;
-        if (bundle != null)
-            bundleCache[bundlePath] = bundle;
-        return bundle;
-    }
 
-    /// <summary>
-    /// 获取UI对应AssetBundle路径（可根据项目实际调整）
-    /// </summary>
-    private string GetBundlePath(string uiName)
-    {
-        // 假设所有UI Bundle都放在Application.streamingAssetsPath + /ui/ 下，Bundle名=界面名小写
-        return $"{Application.streamingAssetsPath}/ui/{uiName.ToLower()}.bundle";
-    }
+
 }
