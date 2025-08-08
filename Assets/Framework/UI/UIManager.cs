@@ -49,14 +49,14 @@ public class UIManager : MonoBehaviour
 
             if (bundle == null)
             {
-                Debug.LogError($"UI AssetBundle加载失败: {bundlePath}");
+                Debug.LogError($"UI AssetBundle加载失败: {uiName}");
                 return null;
             }
             // 加载Prefab
             GameObject prefab = bundle.LoadAsset<GameObject>(uiName);
             if (prefab == null)
             {
-                Debug.LogError($"UI Prefab未找到: {uiName} in {bundlePath}");
+                Debug.LogError($"UI Prefab未找到: {uiName} in {uiName}");
                 return null;
             }
             GameObject go = Instantiate(prefab, layerRoots[view.Layer]); // 先临时放在Common
