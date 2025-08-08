@@ -72,19 +72,19 @@ public class UIManager : MonoBehaviour
         }
         // 重新设置层级（防止Prefab未指定正确层）
         view.transform.SetParent(layerRoots[view.Layer], false);
-        await view.Open(param);
+        view.Open(param);
         return view as T;
     }
 
     /// <summary>
     /// 关闭UI
     /// </summary>
-    public async Task CloseAsync<T>() where T : UIView
+    public void CloseAsync<T>() where T : UIView
     {
         string uiName = typeof(T).Name;
         if (uiDict.TryGetValue(uiName, out UIView view) && view != null)
         {
-            await view.Close();
+             view.Close();
             // 可选：销毁对象，卸载AssetBundle（可根据需求调整）
             // Destroy(view.gameObject);
             // uiDict.Remove(uiName);

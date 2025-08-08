@@ -10,7 +10,7 @@ public class Test : MonoBehaviour
 
     void Start()
     {
-        Utils.AddClickListener(button, (btn) => {
+        Utils.AddBtnClickListener(button, (btn) => {
             LogerUtils.Log($"btnName:{btn.name}");
         });
     }
